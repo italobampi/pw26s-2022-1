@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import { UserSignupPage } from './UserSignupPage';
 
 describe('UserSignupPage', () => {
@@ -52,8 +52,38 @@ describe('UserSignupPage', () => {
         });
     });
 
-
     describe('Interactions', () => {
+        const changeEvent = (content) => {
+            return {
+                target: {
+                    value: content,
+                },
+            }
+        };
 
+        it('sets the displayName value into state', () => {
+            const { queryByPlaceholderText } = render(<UserSignupPage />);
+            const displayNameInput = queryByPlaceholderText('Informe o seu nome');
+            fireEvent.change(displayNameInput, changeEvent('my-display-name'));
+            expect(displayNameInput).toHaveValue('my-display-name');
+        });
+        it('sets the username value into state', () => {
+            const { queryByPlaceholderText } = render(<UserSignupPage />);
+            const usernameInput = queryByPlaceholderText('Informe o usuário');
+            fireEvent.change(usernameInput, changeEvent('my-username'));
+            expect(usernameInput).toHaveValue('my-username');
+        });
+        it('sets the password value into state', () => {
+            const { queryByPlaceholderText } = render(<UserSignupPage />);
+            const passwordInput = queryByPlaceholderText('Informe a sua senha');
+            fireEvent.change(passwordInput, changeEvent('P4ssword'));
+            expect(passwordInput).toHaveValue('P4ssword');
+        });
+        it('sets the password repeat value into state', () => {
+            const { queryByPlaceholderText } = render(<UserSignupPage />);
+            const passwordRepeatInput = queryByPlaceholderText('Confirme sua senha');
+            fireEvent.change(passwordRepeatInput, changeEvent('P4ssword'));
+            expect(passwordRepeatInput).toHaveValue('P4ssword');
+        });
     });
 });
