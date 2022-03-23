@@ -24,6 +24,11 @@ export class UserSignupPage extends React.Component {
         const value = event.target.value;
         this.setState({ passwordRepeat: value });
     }
+
+    onClickSignup = () => {
+        this.props.actions.postSignup();
+    }
+
     render() {
         return (
             <div>
@@ -49,10 +54,18 @@ export class UserSignupPage extends React.Component {
                         value={this.state.passwordRepeat} />
                 </div>
                 <div>
-                    <button>Cadastrar</button>
+                    <button onClick={this.onClickSignup}>Cadastrar</button>
                 </div>
             </div>
         );
+    }
+}
+UserSignupPage.defaultProps = {
+    actions: {
+        postSignup: () =>
+            new Promise((resolve, reject) => {
+                resolve({});
+            })
     }
 }
 export default UserSignupPage;
