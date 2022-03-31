@@ -144,6 +144,15 @@ public class UserControllerTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
 
+    @Test
+    public void postUser_whenAnotherUserHasSameUsername_receiveMessageOfDuplicateUsername() {
+        userRepository.save(createValidUser());
+        ResponseEntity<ApiError> response = postSignup(createValidUser(), ApiError.class);
+        Map<String, String> validationErrors = response.getBody().getValidationErrors();
+        assertThat(validationErrors.get("username")).isEqualTo("Esse usuário já existe, escolha outro usuário");
+    }
+
+
 
     public <T> ResponseEntity<T> postSignup(Object request, Class<T> responseType) {
         return testRestTemplate.postForEntity("/users", request, responseType);
