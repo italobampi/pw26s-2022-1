@@ -35,6 +35,9 @@ export class UserSignupPage extends React.Component {
         this.setState({ pendingApiCall: true });
         this.props.actions.postSignup(user).then( response => {
             this.setState({ pendingApiCall: false });
+        })
+        .catch(error =>{
+            this.setState({ pendingApiCall: false });
         });
     }
 
@@ -75,9 +78,9 @@ export class UserSignupPage extends React.Component {
                         className="btn btn-primary" onClick={this.onClickSignup}
                     >
                         {this.state.pendingApiCall && (
-                            <div class="spinner-border text-light-spinner spinner-border-sm mr-sm-1"
+                            <div className="spinner-border text-light-spinner spinner-border-sm mr-sm-1"
                                 role="status">
-                                <span class="visually-hidden">Aguarde...</span>
+                                <span className="visually-hidden">Aguarde...</span>
                             </div>
                         )}
                         Cadastrar

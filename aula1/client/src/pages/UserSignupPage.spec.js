@@ -71,6 +71,18 @@ describe('UserSignupPage', () => {
             });
         }
 
+        const mockAsyncDelayedRejected = () => {
+            return jest.fn().mockImplementation(() => {
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        reject({
+                            response: { data: {} }
+                        });
+                    }, 500);
+                });
+            });
+        }
+
         let displayNameInput, usernameInput, passwordInput, passwordRepeatInput, button;
         const setupForSubmit = (props) => {
             const rendered = render(<UserSignupPage {...props} />);
@@ -133,7 +145,7 @@ describe('UserSignupPage', () => {
             expect(() => fireEvent.click(button)).not.toThrow();
         });
 
-       it('call post with user body when the fields are valid', () => {
+        it('call post with user body when the fields are valid', () => {
             const actions = {
                 postSignup: jest.fn().mockResolvedValueOnce({}),
             }
@@ -164,21 +176,34 @@ describe('UserSignupPage', () => {
             const actions = {
                 postSignup: mockAsyncDelayed(),
             }
-            const {queryByText} = setupForSubmit({ actions });
+            const { queryByText } = setupForSubmit({ actions });
             fireEvent.click(button);
-            
+
             const spinner = queryByText('Aguarde...');
 
             expect(spinner).toBeInTheDocument();
         });
 
-        it('hides spinner after api call finishes successfully', async() => {
+        it('hides spinner after api call finishes successfully', async () => {
             const actions = {
                 postSignup: mockAsyncDelayed(),
             }
-            const {queryByText} = setupForSubmit({ actions });
+            const { queryByText } = setupForSubmit({ actions });
             fireEvent.click(button);
-            
+
+            const spinner = queryByText('Aguarde...');
+            await waitForElementToBeRemoved(spinner);
+
+            expect(spinner).not.toBeInTheDocument();
+        });
+
+        it('hides spinner after api call finishes with error', async () => {
+            const actions = {
+                postSignup: mockAsyncDelayedRejected(),
+            }
+            const { queryByText } = setupForSubmit({ actions });
+            fireEvent.click(button);
+
             const spinner = queryByText('Aguarde...');
             await waitForElementToBeRemoved(spinner);
 
@@ -186,4 +211,4 @@ describe('UserSignupPage', () => {
         });
     });
 });
-console.error = () => {}; 
+console.error = () => { }; 
