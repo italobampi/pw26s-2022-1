@@ -1,4 +1,5 @@
 import React from "react";
+import ButtonWithProgress from '../components/ButtonWithProgress';
 import Input from '../components/input';
 
 export class UserSignupPage extends React.Component {
@@ -56,14 +57,13 @@ export class UserSignupPage extends React.Component {
                     <Input
                         label="Informe o seu nome"
                         className="form-control"
-                        type="text" 
+                        type="text"
                         placeholder="Informe o seu nome"
                         onChange={this.onChangeDisplayName}
                         value={this.state.displayName}
                         hasError={this.state.errors.displayName && true}
                         error={this.state.errors.displayName}
                     />
-
                 </div>
                 <div className="col-12 mb-3">
                     <label>Informe o usuário</label>
@@ -87,17 +87,12 @@ export class UserSignupPage extends React.Component {
                         value={this.state.passwordRepeat} />
                 </div>
                 <div className="text-center">
-                    <button disabled={this.state.pendingApiCall}
-                        className="btn btn-primary" onClick={this.onClickSignup}
-                    >
-                        {this.state.pendingApiCall && (
-                            <div className="spinner-border text-light-spinner spinner-border-sm mr-sm-1"
-                                role="status">
-                                <span className="visually-hidden">Aguarde...</span>
-                            </div>
-                        )}
-                        Cadastrar
-                    </button>
+                    <ButtonWithProgress
+                        onClick={this.onClickSignup}
+                        disabled={this.state.pendingApiCall}
+                        text="Cadastrar"
+                        pendingApiCall={this.state.pendingApiCall}
+                    />
                 </div>
             </div>
         );
