@@ -20,38 +20,46 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private AuthUserService authUserService;
+
     @Autowired
     private AuthenticationEntryPoint authenticationEntryPoint;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
-            .exceptionHandling()
-                .authenticationEntryPoint(authenticationEntryPoint)
+                .exceptionHandling()
+                .authenticationEntryPoint( authenticationEntryPoint )
             .and()
             .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/users").permitAll()
-            .anyRequest().authenticated()
+                .antMatchers(HttpMethod.POST,"/users").permitAll()
+                .anyRequest().authenticated()
             .and()
-            .addFilter(new JWTAuthenticationFilter(authenticationManager(), getApplicationContext()))
+                // Filters
+                .addFilter(
+                        new JWTAuthenticationFilter(authenticationManager(),
+                                getApplicationContext()))
+                .addFilter(
+                        new JWTAuthorizationFilter(authenticationManager(),
+                                getApplicationContext())
+                )
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        ;
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth)
+            throws Exception {
+        auth.userDetailsService( userDetailsService() )
+                .passwordEncoder( passwordEncoder() );
     }
 
     @Override
     @Bean
-    protected UserDetailsService userDetailsService() {
+    public UserDetailsService userDetailsService() {
         return authUserService;
     }
 
     @Bean
-    protected PasswordEncoder passwordEncoder() {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService())
-                .passwordEncoder(passwordEncoder());
     }
 }

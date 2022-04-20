@@ -13,12 +13,12 @@ import javax.validation.Valid;
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    UserService userService;
 
     @PostMapping
     GenericResponse createUser(@Valid @RequestBody User user) {
         userService.save(user);
-        return new GenericResponse("Registro salvo");
+        return new GenericResponse("Registro salvo.");
     }
 
 }
