@@ -58,7 +58,7 @@ export class UserSignupPage extends React.Component {
                         label="Informe o seu nome"
                         className="form-control"
                         type="text"
-                        placeholder="Informe o seu nome"
+                        placeholder="Informe seu nome"
                         onChange={this.onChangeDisplayName}
                         value={this.state.displayName}
                         hasError={this.state.errors.displayName && true}
@@ -75,7 +75,7 @@ export class UserSignupPage extends React.Component {
                 <div className="col-12 mb-3">
                     <label>Informe a sua senha</label>
                     <input className="form-control"
-                        type="password" placeholder="Informe a sua senha"
+                        type="password" placeholder="Informe sua senha"
                         onChange={this.onChangePassword}
                         value={this.state.password} />
                 </div>
