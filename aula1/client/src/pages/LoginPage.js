@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import ButtonWithProgress from '../components/ButtonWithProgress';
 import Input from '../components/input';
 import AuthService from '../services/auth.service';
@@ -22,6 +23,8 @@ export const LoginPage = (props) => {
     };
     AuthService.login(body).then((response) => {
       setPendingApiCall(false);
+      window.location.reload();
+      
     }).catch((error) => {
       setPendingApiCall(false);
       setApiError('Login failed');
@@ -74,6 +77,9 @@ export const LoginPage = (props) => {
           <div className="alert alert-danger">{apiError}</div>
         </div>
       )}
+      <div className="text-center">
+        não possui cadastro? <Link to="/signup">Cadastrar-se</Link>
+      </div>
     </div>
   )
 }

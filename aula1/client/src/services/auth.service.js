@@ -8,7 +8,7 @@ const login = (user) => {
   return axios
     .post("/login", user)
     .then((response) => {
-      if (response.data.token) {
+      if (response.data) {
         localStorage.setItem("token", JSON.stringify(response.data.token));
       }
       return response.data;

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link, useNavigate } from 'react-router-dom';
 import ButtonWithProgress from '../components/ButtonWithProgress';
 import Input from '../components/input';
 import AuthService from '../services/auth.service';
@@ -12,17 +13,17 @@ export const UserSignupPage = (props) => {
     });
     const [errors, setErrors] = useState({});
     const [pendingApiCall, setPendingApiCall] = useState(false);
+    const navigate = useNavigate();
+
 
     const onChange = (event) => {
         const { value, name } = event.target;
-
         setForm((previousForm) => {
             return {
                 ...previousForm,
                 [name]: value,
             };
         });
-
         setErrors((previousErrors) => {
             return {
                 ...previousErrors,
@@ -40,6 +41,7 @@ export const UserSignupPage = (props) => {
         setPendingApiCall(true);
         AuthService.signup(user).then(response => {
             setPendingApiCall(false);
+            navigate('/');
         }).catch(apiError => {
             if (apiError.response.data && apiError.response.data.validationErrors) {
                 setErrors(apiError.response.data.validationErrors);
@@ -117,6 +119,9 @@ export const UserSignupPage = (props) => {
                     text="Cadastrar"
                     pendingApiCall={pendingApiCall}
                 />
+            </div>
+            <div className="text-center">
+                já possui cadastro? <Link to="/">Login</Link>
             </div>
         </div>
     );
