@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProductServiceImpl extends CrudServiceImpl<Product, Long>
         implements ProductService {
@@ -20,5 +22,10 @@ public class ProductServiceImpl extends CrudServiceImpl<Product, Long>
     @Override
     protected JpaRepository<Product, Long> getRepository() {
         return this.productRepository;
+    }
+
+    @Override
+    public List<Product> findByDescriptionContaining(String description) {
+        return productRepository.findByDescriptionContaining(description);
     }
 }
