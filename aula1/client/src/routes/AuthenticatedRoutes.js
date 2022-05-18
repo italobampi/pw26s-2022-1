@@ -5,6 +5,7 @@ import HomePage from '../pages/HomePage';
 
 import CategoryListPage from '../pages/CategoryListPage';
 import ProductListPage from '../pages/ProductListPage';
+import CategoryFormPage from '../pages/CategoryFormPage';
 
 const AuthenticatedRoutes = () => {
     
@@ -15,6 +16,8 @@ const AuthenticatedRoutes = () => {
                 <Route path='/' element={<HomePage />} />
 
                 <Route path='/categories' element={<CategoryListPage />} />
+                <Route path='/categories/new' element={<CategoryFormPage />} />
+                <Route path='/categories/:id' element={<CategoryFormPage />} />
 
                 <Route path='/products' element={<ProductListPage />} />
 
