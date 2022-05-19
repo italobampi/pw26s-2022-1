@@ -51,7 +51,7 @@ export const CategoryListPage = () => {
                             <td>{category.name}</td>
                             <td>
                                 <Link className="btn btn-primary"
-                                to={`/categories/${category.id}`}>Editar</Link>
+                                    to={`/categories/${category.id}`}>Editar</Link>
 
                                 <button className="btn btn-danger"
                                     onClick={() => onRemove(category.id)}>

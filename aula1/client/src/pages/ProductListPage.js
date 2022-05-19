@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import ProductService from '../services/ProductService';
 
 export const ProductListPage = () => {
@@ -23,6 +24,9 @@ export const ProductListPage = () => {
     return (
         <div className="container">
             <h1 className="text-center">Lista de Produtos</h1>
+            <div className="text-center">
+                <Link className="btn btn-success" to="/products/new">Novo Produto</Link>
+            </div>
             <table className="table table-striped">
                 <thead>
                     <tr>
