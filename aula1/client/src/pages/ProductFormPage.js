@@ -23,33 +23,34 @@ export const ProductFormPage = () => {
     const { id } = useParams();
 
     useEffect(() => {
-        if (id) {
-            ProductService.findOne(id).then((response) => {
-                if (response.data) {
-                    setForm({
-                        id: response.data.id,
-                        name: response.data.name,
-                        price: response.data.price,
-                        description: response.data.description,
-                        category: response.data.category.id
-                    });
-                    setApiError();
-                } else {
-                    setApiError('Falha ao carregar o produto');
-                }
-            }).catch((erro) => {
-                setApiError('Falha ao carregar o produto');
-            });
-        }
         CategoryService.findAll().then((response) => {
             setCategories(response.data);
-            if (!form.category.id) {
-                setForm((previousForm) => {
-                    return {
-                        ...previousForm,
-                        category: response.data[0].id,
-                    };
+            if (id) {
+                ProductService.findOne(id).then((response) => {
+                    if (response.data) {
+                        setForm({
+                            id: response.data.id,
+                            name: response.data.name,
+                            price: response.data.price,
+                            description: response.data.description,
+                            category: response.data.category.id
+                        });
+                        setApiError();
+                    } else {
+                        setApiError('Falha ao carregar o produto');
+                    }
+                }).catch((erro) => {
+                    setApiError('Falha ao carregar o produto');
                 });
+
+                if (form.category == null) {
+                    setForm((previousForm) => {
+                        return {
+                            ...previousForm,
+                            category: response.data[0].id,
+                        };
+                    });
+                }
             }
             setApiError();
         }).catch((erro) => {

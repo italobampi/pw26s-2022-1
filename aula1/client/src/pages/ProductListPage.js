@@ -19,7 +19,16 @@ export const ProductListPage = () => {
             .catch((error) => {
                 setApiError('Falha ao carregar a lista de produtos');
             });
-    }
+    };
+
+    const onRemove = (id) => {
+        ProductService.remove(id).then((response) => {
+            loadData();
+            setApiError();
+        }).catch((erro) => {
+            setApiError('Falha ao remover o produto');
+        });
+    };
 
     return (
         <div className="container">
@@ -44,7 +53,15 @@ export const ProductListPage = () => {
                             <td>{product.name}</td>
                             <td>{product.price}</td>
                             <td>{product.category.name}</td>
-                            <td>...</td>
+                            <td>
+                                <Link className="btn btn-primary"
+                                    to={`/products/${product.id}`}>Editar</Link>
+
+                                <button className="btn btn-danger"
+                                    onClick={() => onRemove(product.id)}>
+                                    Remover
+                                </button>
+                            </td>
                         </tr>
                     ))}
                 </tbody>
