@@ -49,7 +49,6 @@ public class SwaggerConfig implements WebMvcConfigurer {
                 .build()
                 .apiInfo(metaData());
         return docket;
-
     }
 
     private ApiInfo metaData() {
